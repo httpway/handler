@@ -21,6 +21,6 @@ func (Client) Default(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewClient return a initialized client.
-func NewClient() Client {
-	return Client{}
+func NewClient() (Client, error) {
+	return Client{}, nil
 }
