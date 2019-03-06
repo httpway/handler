@@ -28,7 +28,7 @@ func (Client) Default(next http.Handler) http.Handler {
 }
 
 // Panic is used to recover from panics to avoid the server shuting down.
-func Panic(next http.Handler) http.Handler {
+func (Client) Panic(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if rv := recover(); rv != nil {
