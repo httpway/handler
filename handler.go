@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+	"runtime/debug"
 	"time"
 
 	"github.com/pkg/errors"
@@ -24,6 +26,21 @@ func (Client) Default(next http.Handler) http.Handler {
 		t := time.Now()
 		next.ServeHTTP(w, r)
 		fmt.Println(time.Since(t))
+	}
+	return http.HandlerFunc(fn)
+}
+
+// Panic is used to recover from panics to avoid the server shuting down.
+func Panic(next http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if rv := recover(); rv != nil {
+				fmt.Fprintf(os.Stderr, "panic: %+v\n", rv)
+				debug.PrintStack()
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}()
+		next.ServeHTTP(w, r)
 	}
 	return http.HandlerFunc(fn)
 }
