@@ -15,7 +15,7 @@ func (Client) Close(ctx context.Context) error {
 	return nil
 }
 
-// Default act as a reverse proxy.
+// Default is a sample HTTP handler that track the time of a request.
 func (c Client) Default(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		t := time.Now()
