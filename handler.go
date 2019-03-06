@@ -2,14 +2,11 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 	"runtime/debug"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 // Client has the information needed to work as a httpway plugin.
@@ -47,22 +44,7 @@ func Panic(next http.Handler) http.Handler {
 
 // NotFound is invoked to handle not found errors.
 func (Client) NotFound(w http.ResponseWriter, r *http.Request) {
-	payload, err := json.Marshal(map[string]interface{}{
-		"error": map[string]interface{}{
-			"status": http.StatusNotFound,
-			"uri":    r.URL.String(),
-		},
-	})
-	if err != nil {
-		fmt.Println(errors.Wrap(err, "response marshal error").Error())
-		return
-	}
-
-	if _, err := w.Write(payload); err != nil {
-		fmt.Println(errors.Wrap(err, "payload response write error").Error())
-		return
-	}
-	w.WriteHeader(http.StatusNotFound)
+	http.NotFound(w, r)
 }
 
 // NewClient return a initialized client.
