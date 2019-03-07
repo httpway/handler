@@ -22,7 +22,7 @@ func (Client) Default(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		t := time.Now()
 		next.ServeHTTP(w, r)
-		fmt.Println(time.Since(t))
+		fmt.Printf("request duration: %s\n", time.Since(t).String())
 	}
 	return http.HandlerFunc(fn)
 }
