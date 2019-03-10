@@ -1,3 +1,3 @@
-module github.com/httpway/handler
+module github.com/pipehub/handler
 
 go 1.12
