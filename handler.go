@@ -20,9 +20,9 @@ func (Client) Close(ctx context.Context) error {
 // Default is a sample HTTP handler that track the time of a request.
 func (Client) Default(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		r.Host = "google.com"
-		r.URL.Host = "google.com"
-		r.URL.Scheme = "http"
+		r.Host = "www.google.com"
+		r.URL.Host = "www.google.com"
+		r.URL.Scheme = "https"
 
 		t := time.Now()
 		next.ServeHTTP(w, r)
